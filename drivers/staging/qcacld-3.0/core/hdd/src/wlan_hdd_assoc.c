@@ -1939,9 +1939,14 @@ void hdd_save_gtk_params(hdd_adapter_t *adapter,
 	uint8_t *kek;
 	uint32_t kek_len;
 
+// build error
+#if defined(WLAN_FEATURE_FILS_SK)
 	if (is_reassoc) {
+#endif
 		kek = csr_roam_info->kek;
 		kek_len = csr_roam_info->kek_len;
+// build error
+#if defined(WLAN_FEATURE_FILS_SK)
 	} else {
 		/*
 		 * This should come for FILS case only.
@@ -1951,6 +1956,7 @@ void hdd_save_gtk_params(hdd_adapter_t *adapter,
 		kek = csr_roam_info->fils_join_rsp->kek;
 		kek_len = csr_roam_info->fils_join_rsp->kek_len;
 	}
+#endif
 
 	wlan_hdd_save_gtk_offload_params(adapter, NULL, kek, kek_len,
 					 csr_roam_info->replay_ctr,
